@@ -1,5 +1,6 @@
 import streamlit as st
 from langchain_core.messages import HumanMessage, AIMessageChunk
+
 from chatbot_backend import chatbot, generate_thread_id, retrieve_all_thread
 
 
@@ -31,7 +32,15 @@ if "chat_threads" not in st.session_state:
 
 add_thread(st.session_state["thread_id"])
 
-CONFIG = {"configurable": {"thread_id": st.session_state["thread_id"]}}
+CONFIG = {
+    "configurable": {
+        "thread_id": st.session_state["thread_id"],
+    },
+    "run_name": "Streamlit Chatbot",
+    "metadata": {
+        "session_id": st.session_state["thread_id"],  # <-- this is what powers Threads tab
+    },
+}
 
 if "message_history" not in st.session_state:
     st.session_state["message_history"] = []
